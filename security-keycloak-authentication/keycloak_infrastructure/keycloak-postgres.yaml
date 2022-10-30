@@ -1,0 +1,40 @@
+version: '2.1'
+
+services:
+  keycloak-postgres:
+    container_name: keycloak-postgres
+    restart: unless-stopped
+    image: postgres:15-alpine
+    hostname: keycloak-postgres
+    ports:
+      - '9010:5432'
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: Cosima44
+      POSTGRES_HOST: keycloak-postgres
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+
+  keycloak-server:
+    container_name: keycloak-server
+    restart: unless-stopped
+    image: jboss/keycloak:16.1.1
+    hostname: keycloak-server
+    ports:
+      - '9020:8080'
+    environment:
+      DB_VENDOR: postgres
+      DB_ADDR: keycloak-postgres
+      DB_PORT: 5432
+      DB_DATABASE: keycloak
+      DB_USER: keycloak
+      DB_PASSWORD: Cosima44
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: Cosima44
+    depends_on:
+      - keycloak-postgres
+
+volumes:
+  keycloak_postgres_data:
+    driver: local
