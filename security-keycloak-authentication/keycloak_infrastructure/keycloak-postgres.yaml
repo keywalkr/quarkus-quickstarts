@@ -11,7 +11,7 @@ services:
     environment:
       POSTGRES_DB: keycloak
       POSTGRES_USER: keycloak
-      POSTGRES_PASSWORD: Cosima44
+      POSTGRES_PASSWORD: keycloak
       POSTGRES_HOST: keycloak-postgres
     volumes:
       - keycloak_postgres_data:/var/lib/postgresql/data
@@ -29,9 +29,9 @@ services:
       DB_PORT: 5432
       DB_DATABASE: keycloak
       DB_USER: keycloak
-      DB_PASSWORD: Cosima44
+      DB_PASSWORD: keycloak
       KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: Cosima44
+      KEYCLOAK_PASSWORD: admin
     depends_on:
       - keycloak-postgres
 
