@@ -22,7 +22,7 @@ services:
     image: jboss/keycloak:16.1.1
     hostname: keycloak-server
     ports:
-      - '9020:8080'
+      - '9011:8080'
     environment:
       DB_VENDOR: postgres
       DB_ADDR: keycloak-postgres
