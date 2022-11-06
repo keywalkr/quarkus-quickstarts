@@ -4,16 +4,15 @@ services:
   minio-server:
     container_name: minio-server
     restart: unless-stopped
-    image: bitnami/minio:2022.10.29 # minio/minio:RELEASE.2022-10-29T06-21-33Z
+    image: bitnami/minio:2022.10.29
     hostname: minio-server
     ports:
-      - '9000:9000'
-      - '9001:9001'
+      - '9020:9000'
+      - '9021:9001'
     environment:
       MINIO_ROOT_USER: admin
-      MINIO_ROOT_PASSWORD: admin_pass
+      MINIO_ROOT_PASSWORD: admin123
       MINIO_DEFAULT_BUCKETS: test-bucket
-    #command: server /data --console-address ":9001"
     volumes:
       - minio_storage:/data
 

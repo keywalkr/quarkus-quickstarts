@@ -12,7 +12,6 @@
   <artifactId>storage-minio</artifactId>
   <version>1.0.0-SNAPSHOT</version>
 
-
   <dependencies>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -23,10 +22,31 @@
       <artifactId>quarkus-resteasy-reactive</artifactId>
     </dependency>
     <dependency>
-      <groupId>io.quarkiverse.minio</groupId>
-      <artifactId>quarkus-minio</artifactId>
-      <version>2.9.2</version>
+      <groupId>io.quarkus</groupId>
+      <artifactId>quarkus-amazon-s3</artifactId>
     </dependency>
+    <dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>url-connection-client</artifactId>
+      <version>2.18.6</version>
+    </dependency>
+    <!--dependency>
+      <groupId>software.amazon.awssdk</groupId>
+      <artifactId>netty-nio-client</artifactId>
+      <version>2.18.6</version>
+    </dependency-->
+
+    <dependency>
+      <groupId>org.apache.tika</groupId>
+      <artifactId>tika-core</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
@@ -40,7 +60,7 @@
   </dependencies>
   <build>
     <plugins>
-      <plugin>
+      <!--plugin>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-maven-plugin</artifactId>
         <version>${quarkus.platform.version}</version>
@@ -62,8 +82,11 @@
           <compilerArgs>
             <arg>-parameters</arg>
           </compilerArgs>
+          <annotationProcessorPaths>
+            <path></path>
+          </annotationProcessorPaths>
         </configuration>
-      </plugin>
+      </plugin-->
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${surefire-plugin.version}</version>

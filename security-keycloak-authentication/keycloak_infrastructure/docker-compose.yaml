@@ -15,6 +15,8 @@ services:
       POSTGRES_HOST: keycloak-postgres
     volumes:
       - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - keycloak-network
 
   keycloak-server:
     container_name: keycloak-server
@@ -23,18 +25,18 @@ services:
     hostname: keycloak-server
     ports:
       - '9011:8080'
-    environment:
-      DB_VENDOR: postgres
-      DB_ADDR: keycloak-postgres
-      DB_PORT: 5432
-      DB_DATABASE: keycloak
-      DB_USER: keycloak
-      DB_PASSWORD: keycloak
-      KEYCLOAK_USER: admin
-      KEYCLOAK_PASSWORD: admin
+    env_file:
+      - keycloak/.env
+    networks:
+      - keycloak-network
     depends_on:
       - keycloak-postgres
 
+networks:
+  keycloak-network:
+    name: keycloak-network
+
 volumes:
   keycloak_postgres_data:
+    name: keycloak_postgres_data
     driver: local
