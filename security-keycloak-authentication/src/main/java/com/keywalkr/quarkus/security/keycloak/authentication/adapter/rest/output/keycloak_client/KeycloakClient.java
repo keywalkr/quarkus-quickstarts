@@ -9,12 +9,14 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.MultivaluedMap;
 
-@Path("auth/realms/gdpr/protocol/openid-connect")
+@Path("/realms/development/protocol/openid-connect")
 @RegisterRestClient(configKey = "keycloak_client")
 public interface KeycloakClient {
 
     @POST
-    @Path("token")
+    @Path("/token")
     @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     KeycloakAuthenticateResponse authenticate(MultivaluedMap<String, ?> params);
+
+
 }

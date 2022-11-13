@@ -1,0 +1,14 @@
+# docker-compose.yml
+
+version: '2.4'
+
+services:
+  keycloak-server:
+    extends:
+      service: keycloak-server
+      file: docker-compose.base.yml
+    volumes:
+      - ./keycloak/realm:/opt/keycloak/data/import
+    command:
+      - start-dev
+      - --import-realm

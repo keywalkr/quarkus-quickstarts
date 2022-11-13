@@ -15,7 +15,7 @@ In this example, we use the Rest client to access keycloak, authenticate the use
 To start the Keycloak Server on your running docker, just run the following command:
 
 ```shell
-$ docker compose -f security-keycloak-authentication/keycloak_infrastructure/docker-compose.yaml up -d
+$ docker compose -f security-keycloak-authentication/keycloak_infrastructure/docker-compose_.yaml up -d
 ```
 
 You should be able to access the Keycloak Server at [http://localhost:9020](http://localhost:9020)
@@ -25,5 +25,5 @@ Log in as the `admin` using Administration Console. Credentials should be Userna
 You can remove the container running the following command;
 
 ````shell
-$ docker compose -f security-keycloak-authentication/keycloak_infrastructure/docker-compose.yaml down -v --remove-orphans
+$ docker compose -f security-keycloak-authentication/keycloak_infrastructure/docker-compose_.yaml down -v --remove-orphans
 ````

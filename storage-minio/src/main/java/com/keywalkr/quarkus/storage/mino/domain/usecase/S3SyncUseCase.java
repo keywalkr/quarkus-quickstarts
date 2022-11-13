@@ -8,4 +8,6 @@ import java.io.IOException;
 public interface S3SyncUseCase {
 
     PutObjectResponse uploadToS3(FormData data) throws IOException;
+
+    PutObjectResponse uploadToS3Anonymous(FormData data) throws IOException;
 }

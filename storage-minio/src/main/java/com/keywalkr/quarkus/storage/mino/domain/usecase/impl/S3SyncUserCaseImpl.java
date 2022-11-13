@@ -30,4 +30,18 @@ public class S3SyncUserCaseImpl implements S3SyncUseCase {
 
         return minioS3Service.toS3(uploadContent);
     }
+
+    @Override
+    public PutObjectResponse uploadToS3Anonymous(FormData data) throws IOException {
+        String mimeType = new Tika().detect(data.file);
+
+        UploadContent uploadContent = UploadContent.builder()
+                .file(data.file)
+                .filename(data.filename)
+                .mimeType(mimeType)
+                .build();
+
+        return minioS3Service.toS32(uploadContent);
+    }
+
 }

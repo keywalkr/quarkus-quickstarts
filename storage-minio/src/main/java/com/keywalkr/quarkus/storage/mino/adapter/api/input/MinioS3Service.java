@@ -33,6 +33,10 @@ public class MinioS3Service {
         return s3.putObject(buildPutRequest(content), RequestBody.fromFile(content.getFile()));
     }
 
+    public PutObjectResponse toS32(UploadContent content) {
+        return s3.putObject(buildPutRequest2(content), RequestBody.fromFile(content.getFile()));
+    }
+
     public ResponseBytes<GetObjectResponse> fromS3(String filePath) {
         return s3.getObjectAsBytes(buildGetRequest(filePath));
     }
@@ -57,7 +61,7 @@ public class MinioS3Service {
                 .build();
     }
 
-    private PutObjectRequest buildPutRequestAnnonym(UploadContent content) {
+    private PutObjectRequest buildPutRequest2(UploadContent content) {
         String fileId = UUID.randomUUID().toString();
         String filePath = buildFileKey("EJ00AKR007", fileId);
 
