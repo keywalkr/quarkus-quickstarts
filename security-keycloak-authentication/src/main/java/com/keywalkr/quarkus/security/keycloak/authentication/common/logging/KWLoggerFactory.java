@@ -1,5 +1,7 @@
 package com.keywalkr.quarkus.security.keycloak.authentication.common.logging;
 
+import com.keywalkr.commons.logger.KWLogger;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.InjectionPoint;
@@ -8,7 +10,7 @@ import javax.enterprise.inject.spi.InjectionPoint;
 public class KWLoggerFactory {
 
     @Produces
-    public KWLogger createLogger(InjectionPoint injectionPoint){
+    public KWLogger createLogger(InjectionPoint injectionPoint) {
         return KWLogger.getLogger(injectionPoint.getMember().getDeclaringClass());
     }
 }
