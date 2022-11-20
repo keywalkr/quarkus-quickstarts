@@ -1,5 +1,6 @@
 package com.keywalkr.quarkus.storage.mino.adapter.api.output.s3;
 
+import com.keywalkr.commons.logger.KWLogger;
 import com.keywalkr.quarkus.storage.mino.adapter.api.output.s3.model.UploadContent;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import software.amazon.awssdk.core.ResponseBytes;
@@ -14,6 +15,9 @@ import java.util.UUID;
 
 @ApplicationScoped
 public class MinioS3Service {
+
+    @Inject
+    KWLogger log;
 
     @ConfigProperty(name = "s3.bucket.name")
     private String bucketName;
