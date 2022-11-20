@@ -1,4 +1,4 @@
-package com.keywalkr.quarkus.storage.mino.domain.model;
+package com.keywalkr.quarkus.storage.mino.adapter.api.output.s3.model;
 
 import lombok.Builder;
 import lombok.Getter;

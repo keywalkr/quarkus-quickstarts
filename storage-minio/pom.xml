@@ -14,6 +14,10 @@
 
   <dependencies>
     <dependency>
+      <groupId>com.keywalkr.commons</groupId>
+      <artifactId>keywalkr-commons</artifactId>
+    </dependency>
+    <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-arc</artifactId>
     </dependency>
