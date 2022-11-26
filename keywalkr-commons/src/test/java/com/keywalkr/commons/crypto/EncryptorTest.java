@@ -4,6 +4,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 
+import java.util.Base64;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
@@ -50,9 +52,10 @@ class EncryptorTest {
     @Test
     void whenEncryptAndDecrypted_thenShouldEqualOriginal() throws Exception {
         String message = "This is a message to crypt";
+        byte[] key = KEY_STRING.getBytes();
 
-        byte[] encryptedByte = encryptor.encrypt(message.getBytes(), KEY_STRING.getBytes());
-        byte[] decryptedByte = encryptor.decrypt(encryptedByte, KEY_STRING.getBytes());
+        byte[] encryptedByte = encryptor.encrypt(message.getBytes(), key);
+        byte[] decryptedByte = encryptor.decrypt(encryptedByte, key);
 
         assertAll(
                 () -> assertThat(decryptedByte).isNotNull(),
@@ -72,6 +75,24 @@ class EncryptorTest {
                 () -> assertThat(decrypted).isNotNull(),
                 () -> assertThat(new String(decrypted)).isNotEqualTo(new String(encrypted.getLeft())),
                 () -> assertThat(new String(decrypted)).isEqualTo(message)
+        );
+    }
+
+    @Test
+    void whenSaltedEncryptedAndDecrypted_thenSuccess() {
+        // Arrange
+        String message = "I have a complicated word §çöä to €$ and êéà @kubertis";
+
+        // Act
+        Pair<byte[], String> encrypted = encryptor.encryptSecureSalted(message.getBytes());
+
+        byte[] decryptedBytes = encryptor.decrypt(encrypted.getLeft(), new String(Base64.getDecoder().decode(encrypted.getRight())));
+
+        // Assert
+        assertAll(
+                () -> assertThat(decryptedBytes).isNotNull(),
+                () -> assertThat(new String(decryptedBytes)).isNotEqualTo(new String(encrypted.getLeft())),
+                () -> assertThat(new String(decryptedBytes)).isEqualTo(message)
         );
     }
 }
