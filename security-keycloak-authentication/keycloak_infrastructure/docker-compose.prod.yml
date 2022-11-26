@@ -1,0 +1,12 @@
+# docker-compose.prod.yml
+
+version: '2.4'
+
+services:
+  keycloak-server:
+    extends:
+      service: keycloak-server
+      file: docker-compose.base.yml
+    build: ./keycloak
+    command:
+      - start --optimized

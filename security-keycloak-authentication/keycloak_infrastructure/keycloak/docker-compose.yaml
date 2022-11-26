@@ -1,0 +1,52 @@
+version: '2.1'
+
+services:
+  keycloak-postgres:
+    container_name: keycloak-postgres
+    restart: unless-stopped
+    image: postgres:15-alpine
+    hostname: keycloak-postgres
+    ports:
+      - '9010:5432'
+    environment:
+      POSTGRES_DB: bitnami_keycloak
+      POSTGRES_USER: bn_keycloak
+      POSTGRES_PASSWORD: keycloak123
+      POSTGRES_HOST: keycloak-postgres
+    volumes:
+      - keycloak_postgres_data:/var/lib/postgresql/data
+    networks:
+      - keycloak-network
+
+  keycloak-server:
+    container_name: keycloak-server
+    restart: unless-stopped
+    image: bitnami/keycloak:18.0.2
+    hostname: keycloak-server
+    volumes:
+      - ./realm:/opt/bitnami/keycloak/realm
+    ports:
+      - '8890:8080'
+    environment:
+      KEYCLOAK_DATABASE_HOST: keycloak-postgres
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_NAME: bitnami_keycloak
+      KEYCLOAK_DATABASE_USER: bn_keycloak
+      KEYCLOAK_DATABASE_PASSWORD: keycloak123
+      KEYCLOAK_CREATE_ADMIN_USER: true
+      KEYCLOAK_ADMIN_USER: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+      KEYCLOAK_IMPORT: /opt/bitnami/keycloak/realm/realm-export.json
+    depends_on:
+      - keycloak-postgres
+    networks:
+      - keycloak-network
+
+networks:
+  keycloak-network:
+    name: keycloak-network
+
+volumes:
+  keycloak_postgres_data:
+    name: keycloak_postgres_data
+    driver: local
