@@ -1,15 +1,12 @@
-package com.keywalkr.quarkus.storage.mino.adapter.api.input;
+package com.keywalkr.quarkus.storage.mino.adapter.api.output.s3;
 
-import com.keywalkr.quarkus.storage.mino.adapter.api.input.model.FormData;
-import com.keywalkr.quarkus.storage.mino.domain.model.UploadContent;
+import com.keywalkr.commons.logger.KWLogger;
+import com.keywalkr.quarkus.storage.mino.adapter.api.output.s3.model.UploadContent;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
 import software.amazon.awssdk.core.ResponseBytes;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
-import software.amazon.awssdk.services.s3.model.GetObjectRequest;
-import software.amazon.awssdk.services.s3.model.GetObjectResponse;
-import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.services.s3.model.*;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,15 +16,14 @@ import java.util.UUID;
 @ApplicationScoped
 public class MinioS3Service {
 
+    @Inject
+    KWLogger log;
+
     @ConfigProperty(name = "s3.bucket.name")
     private String bucketName;
 
     @Inject
     private S3Client s3;
-
-    public PutObjectResponse toS3(FormData formData) {
-        return s3.putObject(buildPutRequest(formData), RequestBody.fromFile(formData.file));
-    }
 
     public PutObjectResponse toS3(UploadContent content) {
         return s3.putObject(buildPutRequest(content), RequestBody.fromFile(content.getFile()));
@@ -41,18 +37,14 @@ public class MinioS3Service {
         return s3.getObjectAsBytes(buildGetRequest(filePath));
     }
 
-    private PutObjectRequest buildPutRequest(FormData content) {
-
-        return PutObjectRequest.builder()
+    public DeleteObjectResponse deleteFromS3(String filePath) {
+        return s3.deleteObject(DeleteObjectRequest.builder()
                 .bucket(bucketName)
-                .key(content.filename)
-                .metadata(Map.of("sep", UUID.randomUUID().toString()))
-                .contentType("image/png")
-                .build();
+                .key(filePath)
+                .build());
     }
 
     private PutObjectRequest buildPutRequest(UploadContent content) {
-
         return PutObjectRequest.builder()
                 .bucket(bucketName)
                 .key(content.getFilename())

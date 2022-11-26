@@ -1,4 +1,4 @@
-package com.keywalkr.quarkus.security.keycloak.authentication.common.logging;
+package com.keywalkr.quarkus.storage.mino.common.logging;
 
 import com.keywalkr.commons.logger.KWLogger;
 

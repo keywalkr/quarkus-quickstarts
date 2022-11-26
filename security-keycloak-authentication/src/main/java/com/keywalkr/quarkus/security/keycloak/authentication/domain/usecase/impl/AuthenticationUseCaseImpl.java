@@ -7,6 +7,7 @@ import com.keywalkr.quarkus.security.keycloak.authentication.adapter.rest.input.
 import com.keywalkr.quarkus.security.keycloak.authentication.adapter.rest.input.model.AuthenticationResponseDto;
 import com.keywalkr.quarkus.security.keycloak.authentication.adapter.rest.output.keycloak_client.KeycloakClient;
 import com.keywalkr.quarkus.security.keycloak.authentication.adapter.rest.output.keycloak_client.model.KeycloakAuthenticateRequest;
+import com.keywalkr.quarkus.security.keycloak.authentication.adapter.rest.output.keycloak_client.model.KeycloakAuthenticateResponse;
 import com.keywalkr.quarkus.security.keycloak.authentication.domain.usecase.AuthencicationUseCase;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 
@@ -36,6 +37,11 @@ public class AuthenticationUseCaseImpl implements AuthencicationUseCase {
         Map<String, Object> requestMap = objectMapper.convertValue(keycloakAuthenticateRequest, new TypeReference<Map<String, Object>>() {
         });
 
-        return dtoMapper.toAuthenticationResponseDto(keycloakClient.authenticate(new MultivaluedHashMap<>(requestMap)));
+        KeycloakAuthenticateResponse keycloakAuthenticateResponse = keycloakClient.authenticate(new MultivaluedHashMap<>(requestMap));
+
+
+        //keycloakClient.userInfo();
+
+        return dtoMapper.toAuthenticationResponseDto(keycloakAuthenticateResponse);
     }
 }

@@ -10,4 +10,5 @@ Quarkus Framework and the Domain Driven Design (DDD)
 
 ## Quick Start modules
 
-* [Security Get Keycloak JWT] (./security-keycloak-authentication) How to get the [Keycloak](https://www.keycloak.org) JWT using Rest Client
+* [Security Get Keycloak JWT](./security-keycloak-authentication):9019 How to get the [Keycloak](https://www.keycloak.org) JWT using Rest Client
+* [Minio](./storage-minio): 9029 How to get the [Keycloak](https://www.keycloak.org) JWT using Rest Client

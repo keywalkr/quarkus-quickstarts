@@ -1,5 +1,6 @@
 package com.keywalkr.quarkus.storage.mino.adapter.api.input;
 
+import com.keywalkr.commons.logger.KWLogger;
 import com.keywalkr.quarkus.storage.mino.adapter.api.input.model.FormData;
 import com.keywalkr.quarkus.storage.mino.domain.usecase.S3SyncUseCase;
 import org.jboss.resteasy.reactive.MultipartForm;
@@ -17,15 +18,16 @@ import java.io.IOException;
 public class UploadResource {
 
     @Inject
-    S3SyncUseCase s3SyncUseCase;
+    KWLogger log;
 
     @Inject
-    MinioS3Service minioS3Service;
+    S3SyncUseCase s3SyncUseCase;
 
     @POST
     @Path("upload")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response upload(@MultipartForm FormData formData) throws IOException {
+        log.debug("Upload document");
         return Response.ok(s3SyncUseCase.uploadToS3(formData)).build();
     }
 
@@ -39,19 +41,19 @@ public class UploadResource {
     @GET
     @Path("/download/{objectKey}")
     @Produces(MediaType.APPLICATION_OCTET_STREAM)
-    public Response downloadFile(String objectKey) {
+    public Response downloadFile(@PathParam("objectKey") String objectKey) {
+        return buildResponse(s3SyncUseCase.downloadFile(objectKey));
+    }
 
-        return buildResponse(minioS3Service.fromS3(objectKey));
-        /*ResponseBytes<GetObjectResponse> objectBytes = minioS3Service.fromS3(objectKey);
-
-        return Response.ok(objectBytes.asInputStream())
-                .header("Content-Disposition", "attachment;filename=" + objectKey)
-                .header("Content-Type", objectBytes.response().contentType())
-                .build();*/
+    @DELETE
+    @Path("/remove/{objectKey}")
+    public void remove(@PathParam("objectKey") String objectKey) {
+        s3SyncUseCase.deleteFile(objectKey);
     }
 
     private Response buildResponse(ResponseBytes<GetObjectResponse> responseBytes) {
         return Response.ok(responseBytes.asInputStream())
+                //.header("Content-Disposition", "attachment;filename=" + objectKey)
                 .header("Content-Type", responseBytes.response().contentType())
                 .build();
     }

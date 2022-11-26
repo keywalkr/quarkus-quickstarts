@@ -1,12 +1,13 @@
-package com.keywalkr.quarkus.security.keycloak.authentication.common.logging;
+package com.keywalkr.commons.logger;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.text.MessageFormat;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
+
+import static java.util.Objects.requireNonNull;
 
 public class KWLogger {
 
@@ -32,9 +33,18 @@ public class KWLogger {
         logMessage(log::error, pattern, args);
     }
 
-    private void logMessage(Consumer<String> logLevel, String pattern, Object... args){
-        Objects.requireNonNull(pattern);
-        String message = Optional.of(pattern).map(p -> MessageFormat.format(p, args)).orElse(null);
-        logLevel.accept(message);
+    public void error(String message, Throwable exception) {
+        requireNonNull(exception);
+        logMessage(m-> log.error(m, exception), message);
+    }
+
+    public void trace(String pattern, Object... args){
+        logMessage(log::trace, pattern, args);
+    }
+
+    private void logMessage(Consumer<String> messageCosumer, String pattern, Object... args){
+        requireNonNull(pattern);
+        String message = Optional.of(pattern).map(p ->"Message: " +  MessageFormat.format(p, args)).orElse(null);
+        messageCosumer.accept(message);
     }
 }

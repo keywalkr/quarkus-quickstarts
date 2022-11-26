@@ -1,10 +1,12 @@
 package com.keywalkr.quarkus.storage.mino.domain.usecase.impl;
 
-import com.keywalkr.quarkus.storage.mino.adapter.api.input.MinioS3Service;
 import com.keywalkr.quarkus.storage.mino.adapter.api.input.model.FormData;
-import com.keywalkr.quarkus.storage.mino.domain.model.UploadContent;
+import com.keywalkr.quarkus.storage.mino.adapter.api.output.s3.MinioS3Service;
+import com.keywalkr.quarkus.storage.mino.adapter.api.output.s3.model.UploadContent;
 import com.keywalkr.quarkus.storage.mino.domain.usecase.S3SyncUseCase;
 import org.apache.tika.Tika;
+import software.amazon.awssdk.core.ResponseBytes;
+import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -44,4 +46,13 @@ public class S3SyncUserCaseImpl implements S3SyncUseCase {
         return minioS3Service.toS32(uploadContent);
     }
 
+    @Override
+    public ResponseBytes<GetObjectResponse> downloadFile(String objectKey){
+        return minioS3Service.fromS3(objectKey);
+    }
+
+    @Override
+    public void deleteFile(String objectKey) {
+        minioS3Service.deleteFromS3(objectKey);
+    }
 }
